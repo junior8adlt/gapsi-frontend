@@ -20,6 +20,7 @@ import {
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import AddProviderForm from './forms/AddProvider';
+import CustomButton from './ui/CustomButton';
 const API_URL = import.meta.env.VITE_API_URL;
 const ProvidersList = () => {
   const [providers, setProviders] = useState([]);
@@ -98,14 +99,9 @@ const ProvidersList = () => {
   return (
     <Paper style={{ margin: '20px', padding: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
-        <Button
-          variant='contained'
-          color='primary'
-          startIcon={<AddIcon />}
-          onClick={handleAddButtonClick}
-        >
+        <CustomButton variant='contained' startIcon={<AddIcon />} onClick={handleAddButtonClick}>
           Agregar Proveedor
-        </Button>
+        </CustomButton>
       </div>
       <TableContainer component={Paper}>
         {loading ? (

@@ -9,6 +9,7 @@ import {
 import axios from 'axios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import CustomButton from '../ui/CustomButton';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const AddProviderForm = ({ onClose, onProviderAdded }) => {
@@ -93,9 +94,7 @@ const AddProviderForm = ({ onClose, onProviderAdded }) => {
         <Button onClick={onClose} color='primary'>
           Cancelar
         </Button>
-        <Button onClick={handleAddProvider} color='primary'>
-          Agregar
-        </Button>
+        <CustomButton onClick={handleAddProvider}>Agregar</CustomButton>
       </DialogActions>
     </Dialog>
   );

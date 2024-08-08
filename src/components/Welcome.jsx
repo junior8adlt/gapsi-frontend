@@ -1,22 +1,15 @@
-import { Button, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Typography } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { Version } from './Version';
+import CustomButton from './ui/CustomButton';
 
 export const Welcome = () => {
   const [message, setMessage] = useState('');
   const [version, setVersion] = useState('');
   const navigate = useNavigate();
-  const ColorButton = styled(Button)(() => ({
-    color: '#ffffff',
-    backgroundColor: '#0099cc',
-    '&:hover': {
-      backgroundColor: '#0099cc',
-    },
-  }));
 
   useEffect(() => {
     const fetchWelcomeAndVersion = async () => {
@@ -55,9 +48,9 @@ export const Welcome = () => {
       >
         {message}
       </Typography>
-      <ColorButton size='large' variant='contained' onClick={() => navigate('/providers')}>
+      <CustomButton size='large' variant='contained' onClick={() => navigate('/providers')}>
         Continuar
-      </ColorButton>
+      </CustomButton>
       <Version version={version} />
     </>
   );
