@@ -1,6 +1,7 @@
 import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -28,12 +29,13 @@ const ProvidersList = () => {
   const [addProviderOpen, setAddProviderOpen] = useState(false);
   const [deleteProviderOpen, setDeleteProviderOpen] = useState(false);
   const [providerToDelete, setProviderToDelete] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     fetchProviders(page, rowsPerPage);
   }, [page, rowsPerPage]);
 
   const fetchProviders = (page, limit) => {
+    setLoading(true);
     axios
       .get(`${API_URL}/providers?page=${page + 1}&limit=${limit}`)
       .then((response) => {
@@ -42,6 +44,9 @@ const ProvidersList = () => {
       })
       .catch((error) => {
         console.error('Error fetching providers:', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -103,30 +108,36 @@ const ProvidersList = () => {
         </Button>
       </div>
       <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Nombre</TableCell>
-              <TableCell>Razón Social</TableCell>
-              <TableCell>Dirección</TableCell>
-              <TableCell>Acciones</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {providers.map((provider, index) => (
-              <TableRow key={index}>
-                <TableCell>{provider.name}</TableCell>
-                <TableCell>{provider.reason}</TableCell>
-                <TableCell>{provider.address}</TableCell>
-                <TableCell>
-                  <IconButton onClick={() => handleOpenDeleteDialog(provider)} color='secondary'>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Nombre</TableCell>
+                <TableCell>Razón Social</TableCell>
+                <TableCell>Dirección</TableCell>
+                <TableCell>Acciones</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {providers.map((provider, index) => (
+                <TableRow key={index}>
+                  <TableCell>{provider.name}</TableCell>
+                  <TableCell>{provider.reason}</TableCell>
+                  <TableCell>{provider.address}</TableCell>
+                  <TableCell>
+                    <IconButton onClick={() => handleOpenDeleteDialog(provider)} color='secondary'>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
         <TablePagination
           rowsPerPageOptions={[1, 10, 25, 50]}
           component='div'
